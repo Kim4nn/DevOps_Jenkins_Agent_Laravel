@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         // Telegram Bot credentials stored in Jenkins
-        TG_BOT_TOKEN = credentials('7016228065:AAFGbZA9eqtteFgPSFG6UlSrtJ3yVXdHQjs')
-        TG_CHAT_ID   = credentials('7016228065')
+        TG_BOT_TOKEN = 7016228065:AAFGbZA9eqtteFgPSFG6UlSrtJ3yVXdHQjs
+        TG_CHAT_ID   = 7016228065
     }
 
     stages {
