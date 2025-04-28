@@ -1,5 +1,5 @@
 pipeline {
-    agent laravel-agent
+    agent any
 
     environment {
         // Telegram Bot credentials stored in Jenkins
