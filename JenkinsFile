@@ -46,8 +46,8 @@ pipeline {
                 // Send Telegram notification on failure
                 def message = "Laravel Build Failed: Job: *${env.JOB_NAME}*\nBuild: *#${env.BUILD_NUMBER}*\n[View Details](${env.BUILD_URL})"
                 def encoded = URLEncoder.encode(message, 'UTF-8')
-                sh "curl -s -X POST https://api.telegram.org/bot${7016228065:AAFGbZA9eqtteFgPSFG6UlSrtJ3yVXdHQjs}/sendMessage " +
-                   "-d chat_id=${7016228065} " +
+                sh "curl -s -X POST https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage " +
+                   "-d chat_id=${TG_CHAT_ID} " +
                    "-d parse_mode=Markdown " +
                    "-d text='${encoded}'"
             }
