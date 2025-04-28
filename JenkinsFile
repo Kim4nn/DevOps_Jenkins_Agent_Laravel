@@ -1,0 +1,59 @@
+pipeline {
+    agent laravel-agent
+
+    environment {
+        // Telegram Bot credentials stored in Jenkins
+        TG_BOT_TOKEN = credentials('7016228065:AAFGbZA9eqtteFgPSFG6UlSrtJ3yVXdHQjs')
+        TG_CHAT_ID   = credentials('7016228065')
+    }
+
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing Composer dependencies...'
+                sh 'composer install'
+            }
+        }
+
+        stage('Prepare Environment') {
+            steps {
+                echo 'Setting up environment file and app key...'
+                sh '''
+                   cp .env.example .env
+                   php artisan key:generate
+                '''
+            }
+        }
+
+        stage('Install Node.js Dependencies') {
+            steps {
+                echo 'Installing Node.js dependencies...'
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo 'Executing PHPUnit tests via Artisan...'
+                sh 'php artisan test'
+            }
+        }
+    }
+
+    post {
+        failure {
+            script {
+                // Send Telegram notification on failure
+                def message = "Laravel Build Failed: Job: *${env.JOB_NAME}*\nBuild: *#${env.BUILD_NUMBER}*\n[View Details](${env.BUILD_URL})"
+                def encoded = URLEncoder.encode(message, 'UTF-8')
+                sh "curl -s -X POST https://api.telegram.org/bot${7016228065:AAFGbZA9eqtteFgPSFG6UlSrtJ3yVXdHQjs}/sendMessage " +
+                   "-d chat_id=${7016228065} " +
+                   "-d parse_mode=Markdown " +
+                   "-d text='${encoded}'"
+            }
+        }
+        success {
+            echo 'Build succeeded.'
+        }
+    }
+}
