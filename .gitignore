@@ -9,6 +9,11 @@
 /vendor
 .env
 .env.backup
+.env.example
+.gitattributes
+.gitignore
+.prettierignore
+.prettierrc
 .env.production
 .phpactor.json
 .phpunit.result.cache
